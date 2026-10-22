@@ -53,11 +53,6 @@ class DQNNet(nn.Module):
         self.fc5 = nn.Linear(32, output_size)
         self.optimizer = optim.Adam(self.parameters(), lr=lr)
 
-    def save_model(self, filename):
-        """ Saves the policy network model. """
-        torch.save(self.policy_net.state_dict(), filename)
-        print(f"Model saved as {filename}")
-
     def forward(self, x):
         """
         Forward pass through the DQN network.
@@ -127,7 +122,7 @@ class DQNAgent:
         if len(self.memory) < batch_size:
             return
 
-        start_time = time.time()  # ⏳ Track Learning Time
+        start_time = time.time()  #Track Learning Time
 
         states, actions, next_states, rewards, dones = self.memory.sample(batch_size, self.device)
 
@@ -143,7 +138,7 @@ class DQNAgent:
         loss.backward()
         self.policy_net.optimizer.step()
 
-        elapsed_time = time.time() - start_time  # 🔍 Track Execution Time
+        elapsed_time = time.time() - start_time  #Track Execution Time
 
     def remember(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
